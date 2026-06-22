@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The roses are jealous of you</title>
     <style>
         * {
@@ -13,7 +13,7 @@
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #ffe5ec, #ffc2d1);
+            background: linear-gradient(135deg, #1f1c2c, #928dab);
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -21,174 +21,105 @@
             overflow: hidden;
             flex-direction: column;
             position: relative;
+            color: #fff;
         }
         .container {
             text-align: center;
-            background: rgba(214, 40, 40, 0.2);
+            background: rgba(255, 255, 255, 0.1);
             padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             max-width: 90%;
             width: 400px;
             z-index: 10;
         }
         h1 {
-            color: #d90429;
             font-size: 24px;
-            margin-bottom: 30px;
-            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #ff4d6d;
+            text-shadow: 0 2px 10px rgba(255, 77, 109, 0.3);
         }
-        .btn-group {
+        .rose-img {
+            width: 150px;
+            height: 150px;
+            margin: 15px auto;
+            display: block;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .buttons {
             display: flex;
             justify-content: center;
-            align-items: center;
             gap: 20px;
-            height: 80px;
+            margin-top: 20px;
             position: relative;
+            height: 50px;
         }
         button {
-            padding: 12px 28px;
+            padding: 12px 25px;
             font-size: 18px;
             font-weight: bold;
             border: none;
-            border-radius: 50px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: transform 0.2s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
         }
         #yesBtn {
-            background-color: #2ec4b6;
+            background-color: #ff4d6d;
             color: white;
         }
         #noBtn {
-            background-color: #e63946;
+            background-color: #6c757d;
             color: white;
             position: absolute;
-        }
-        .rose-petal {
-            position: absolute;
-            background-color: #ff4d6d;
-            border-radius: 50% 0 50% 50%;
-            opacity: 0.7;
-            animation: fall linear infinite;
-            z-index: 1;
-        }
-        @keyframes fall {
-            0% {
-                transform: translateY(-20px) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-        .hidden {
-            display: none !important;
-        }
-        #surprise {
-            text-align: center;
-            z-index: 10;
-            max-width: 90%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        #surprise h2 {
-            color: #d90429;
-            font-size: 26px;
-            margin-top: 20px;
-            animation: pulse 1.5s infinite;
-        }
-        .memory-img {
-            width: 100%;
-            max-width: 280px;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            border: 3px solid white;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
         }
     </style>
 </head>
 <body>
 
-    <div class="container" id="mainCard">
-        <h1>The roses are jealous of you</h1>
-        <div class="btn-group">
-            <button id="yesBtn">احبك ❤️</button>
-            <button id="noBtn">لا 💔</button>
+    <!-- الموسيقى الخلفية للمشروع -->
+    <audio id="bgMusic" loop src="song.mp3"></audio>
+
+    <div class="container">
+        <!-- النص الرئيسي الجديد هنا تم تعديله -->
+        <h1 id="x9m3aa">The roses are jealous of you</h1>
+        
+        <!-- صورة الوردة المضافة للمشروع -->
+        <img class="rose-img" src="rose.jpg" alt="Rose">
+
+        <!-- أزرار لعبة نعم أو لا التفاعلية -->
+        <div class="buttons">
+            <button id="yesBtn" onclick="playGift()">Yes</button>
+            <button id="noBtn" onmouseover="moveNoButton()" onclick="moveNoButton()">No</button>
         </div>
     </div>
 
-    <div id="surprise" class="hidden">
-        <img src="img1.JPG" alt="Memory" class="memory-img">
-        <h2 id="textTarget">The roses are jealous of you</h2>
-    </div>
-
-    <audio id="bgMusic" loop>
-        <source src="song.mp3" type="audio/mpeg">
-    </audio>
-
     <script>
-        const yesBtn = document.getElementById('yesBtn');
-        const noBtn = document.getElementById('noBtn');
-        const mainCard = document.getElementById('mainCard');
-        const surprise = document.getElementById('surprise');
-        const bgMusic = document.getElementById('bgMusic');
-
-        noBtn.addEventListener('mouseover', moveButton);
-        noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            moveButton();
-        });
-
-        function moveButton() {
-            const container = document.querySelector('.btn-group');
-            const containerWidth = container.clientWidth;
-            const containerHeight = container.clientHeight;
-            
-            const maxX = containerWidth - noBtn.clientWidth;
-            const maxY = containerHeight - noBtn.clientHeight;
-
-            const randomX = Math.floor(Math.random() * maxX);
-            const randomY = Math.floor(Math.random() * maxY);
-
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
+        // تشغيل الموسيقى عند الضغط على نعم والتفاعل مع اللعبة
+        function playGift() {
+            var music = document.getElementById('bgMusic');
+            music.play().catch(function(error) {
+                console.log("Music play prevented, requires user interaction first.");
+            });
+            alert("I knew it! ❤️");
         }
 
-        yesBtn.addEventListener('click', () => {
-            mainCard.classList.add('hidden');
-            surprise.classList.remove('hidden');
+        // حركة زر "لا" الذكي لمنع الضغط عليه وتجنب الخطأ
+        function moveNoButton() {
+            var noBtn = document.getElementById('noBtn');
+            var container = document.querySelector('.container');
             
-            bgMusic.play().catch(error => console.log("Audio play deferred"));
-
-            setInterval(createPetal, 300);
-        });
-
-        function createPetal() {
-            const petal = document.createElement('div');
-            petal.classList.add('rose-petal');
+            var maxX = container.clientWidth - noBtn.clientWidth - 20;
+            var maxY = container.clientHeight - noBtn.clientHeight - 20;
             
-            petal.style.left = Math.random() * window.innerWidth + 'px';
-            const size = Math.random() * 15 + 10;
-            petal.style.width = size + 'px';
-            petal.style.height = size + 'px';
+            var randomX = Math.floor(Math.random() * maxX);
+            var randomY = Math.floor(Math.random() * maxY);
             
-            petal.style.animationDuration = Math.random() * 3 + 2 + 's';
-            
-            document.body.appendChild(petal);
-            
-            setTimeout(() => {
-                petal.remove();
-            }, 5000);
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
         }
     </script>
 </body>
